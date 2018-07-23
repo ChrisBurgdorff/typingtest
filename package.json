@@ -1,0 +1,10 @@
+{
+  "name": "TagTest",
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.5.2",
+    "node-zillow": "^1.0.1"
+  }
+}
