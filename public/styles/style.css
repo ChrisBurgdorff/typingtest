@@ -1,0 +1,43 @@
+h1 {
+  text-align: center;
+}
+.headline {
+  margin: 25px;
+}
+.checkImage {
+  float: left;
+  width: 920px;
+  text-align: center;
+}
+.checkForm {
+  float: left;
+  text-align: right;
+  width: 25%;
+}
+input {
+  margin-bottom: 10px;
+}
+#timer, #message {
+	margin-top: 25px;
+}
+#projects {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.tagButton {
+    background-color: #17EAD9;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1.4em;
+    color: white;
+    border-radius: 6px;S
+    margin-top: 100px;
+	padding: 6px;
+}
+button {
+	margin-top: 8px;
+	cursor: pointer;
+}
