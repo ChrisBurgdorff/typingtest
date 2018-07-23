@@ -1,0 +1,94 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+	<head>
+		<link href="http://www.chrisburgdorff.com/burgdorff.css" rel="stylesheet" type="text/css">
+		<link href='https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Oswald|Montserrat|Raleway' rel='stylesheet' type='text/css'>
+		<link href="styles/style.css" rel="stylesheet" type="text/css">
+		<link rel="shortcut icon" type="image/x-icon" href="https://www.chrisburgdorff.com/cb.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Tag Test</title>
+	</head>
+	<body>
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script src="display.js"></script>
+		<div ng-controller="AppCtrl" id="tagTest">
+			<div class="headline" id="welcomeHead" ng-show="intro">
+				<h1>Welcome</h1>
+			</div>
+			<div class="headline" id="tagTestHead" ng-show="main">
+				<h1>Tag Test</h1>
+			</div>
+			<div id="tagTestIntro" ng-show="intro">
+				<div id="projects">
+					<p>Thank you for your interest in Exhibit A Solutions.  Please fill out the following information and click "Next", and you will be asked to take a quick typing test.</p>
+					<p>The test should take no more than ten minutes.  Once it starts, <strong>do not</strong> refresh the page or use the back button.  You will be assessed for speed and accuracy, so 
+					try to finish as quickly as you can without making too many mistakes.  The test can only be taken once.</p>
+					Name: <input type="text" ng-model="applicantName"></input>
+					<br>
+					Email: <input type="text" ng-model="applicantEmail"></input>
+					<br>
+					Phone Number: <input type="text" ng-model="applicantPhone"></input>
+					<br>
+					<button ng-click="createApplicant">Next</button>
+				</div>
+			</div>
+			<div id="tagTestTutorial" ng-show="tutorial">
+				
+			</div>
+			<div id="tagTestMain" ng-show="main">				
+				<div class="checkImage">
+				  <img src="http://www.wollemipine.com/images/wp_wallpaper9_800x600.jpg">
+				</div>
+				<div class="checkForm">		  
+				  Check Number:
+				  <input type="text" ng-model="checkNumber">{{checkNumber}}</input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Check Date:
+				  <input type="text" class="dateField" ng-model="docDate">{{docDate}}</input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Amount:
+				  <input type="text" ng-model="amount">{{amount}}</input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Payee:
+				  <input type="text" ng-model="payee">{{payee}}</input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Payor:
+				  <input type="text" ng-model="payor">{{payor}}</input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Payor Signature:
+				  <input type="text" ng-model="payorSignature">{{payorSignature}}</input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Check Memo:
+				  <input type="text" ng-model="checkMemo">{{checkMemo}}</input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Endorsement:
+				  <input type="text" ng-model="endorsement">{{endorsement}}</input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Endoresement Bank:
+				  <input type="text" ng-model="endorsementBank">{{endorsementBank}}</input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Transaction Date:
+				  <input type="text" class="dateField" ng-model="transactionDate">{{transactionDate}}</input>
+				  <input type="checkbox"></input>
+				  <br>
+				<button class="btn" ng-click="submitRecord">Submit</button>
+				<button class="btn" ng-click="newImage" id="newImage">New Image</button>
+				<p id="timer">Elapsed Time: </p>
+				<p id="message">{{message}}</p>
+				</div>
+				<div class="clearFix"></div>
+			</div>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
+		<script src="controllers/controller.js"></script>
+	</body>
+</html>
