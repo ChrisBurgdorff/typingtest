@@ -4,12 +4,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
-var MongoUrl = "mongodb://wesborland1234:vcr357@ds147391.mlab.com:47391/tagtestdb";
+var MongoUrl = "mongodb://wesborland1234:fakepassword1@ds147391.mlab.com:47391/tagtestdb";
 var mongodb = require('mongodb');
-
-app.get('/', function (req, res){
-	res.send("Hello");
-});
 
 app.use(express.static(__dirname + "/public"));
 
