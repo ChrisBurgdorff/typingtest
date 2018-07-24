@@ -28,6 +28,18 @@ app.post('/applicant', function (req, res) {
 	});
 });
 
+app.put('/applicant/:id', function (req, res) {
+  var id = req.params.id;
+  db.collection('applicants').updateOne({_id: new mongodb.ObjectID(id)},
+    {$set: {
+        elapsedTime: req.body.elapsedTime,
+        accuracy: req.body.accuracy}}, 
+	function (err, doc) {
+      res.json(doc);
+    }
+  );
+});
+
 app.post('/record', function (req, res) {
 	console.log(req.body);
 	db.collection('records').insert(req.body, function(err, doc){
