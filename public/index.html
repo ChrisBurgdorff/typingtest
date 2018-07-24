@@ -10,7 +10,6 @@
 	</head>
 	<body>
 		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-		<script src="display.js"></script>
 		<div ng-controller="AppCtrl" id="tagTest">
 			<div class="headline" id="welcomeHead" ng-show="intro">
 				<h1>Welcome</h1>
@@ -29,7 +28,7 @@
 					<br>
 					Phone Number: <input type="text" ng-model="applicantPhone"></input>
 					<br>
-					<button ng-click="createApplicant">Next</button>
+					<button ng-click="createApplicant()">Next</button>
 				</div>
 			</div>
 			<div id="tagTestTutorial" ng-show="tutorial">
@@ -37,55 +36,58 @@
 			</div>
 			<div id="tagTestMain" ng-show="main">				
 				<div class="checkImage">
-				  <img src="https://www.wollemipine.com/images/wp_wallpaper9_800x600.jpg">
+				  <img src="http://www.wollemipine.com/images/wp_wallpaper9_800x600.jpg" id="mainImage">
 				</div>
 				<div class="checkForm">		  
 				  Check Number:
-				  <input type="text" ng-model="checkNumber">{{checkNumber}}</input>
+				  <input type="text" ng-model="checkNumber"></input>
 				  <input type="checkbox"></input>
 				  <br>
 				  Check Date:
-				  <input type="text" class="dateField" ng-model="docDate">{{docDate}}</input>
+				  <input type="text" class="dateField" ng-model="docDate"></input>
 				  <input type="checkbox"></input>
 				  <br>
 				  Amount:
-				  <input type="text" ng-model="amount">{{amount}}</input>
+				  <input type="text" ng-model="amount"></input>
 				  <input type="checkbox"></input>
 				  <br>
 				  Payee:
-				  <input type="text" ng-model="payee">{{payee}}</input>
+				  <input type="text" ng-model="payee"></input>
 				  <input type="checkbox"></input>
 				  <br>
 				  Payor:
-				  <input type="text" ng-model="payor">{{payor}}</input>
+				  <input type="text" ng-model="payor"></input>
 				  <input type="checkbox"></input>
 				  <br>
 				  Payor Signature:
-				  <input type="text" ng-model="payorSignature">{{payorSignature}}</input>
+				  <input type="text" ng-model="payorSignature"></input>
 				  <input type="checkbox"></input>
 				  <br>
 				  Check Memo:
-				  <input type="text" ng-model="checkMemo">{{checkMemo}}</input>
+				  <input type="text" ng-model="checkMemo"></input>
 				  <input type="checkbox"></input>
 				  <br>
 				  Endorsement:
-				  <input type="text" ng-model="endorsement">{{endorsement}}</input>
+				  <input type="text" ng-model="endorsement"></input>
 				  <input type="checkbox"></input>
 				  <br>
 				  Endoresement Bank:
-				  <input type="text" ng-model="endorsementBank">{{endorsementBank}}</input>
+				  <input type="text" ng-model="endorsementBank"></input>
 				  <input type="checkbox"></input>
 				  <br>
 				  Transaction Date:
-				  <input type="text" class="dateField" ng-model="transactionDate">{{transactionDate}}</input>
+				  <input type="text" class="dateField" ng-model="transactionDate"></input>
 				  <input type="checkbox"></input>
 				  <br>
-				<button class="btn" ng-click="submitRecord">Submit</button>
-				<button class="btn" ng-click="newImage" id="newImage">New Image</button>
+				<button class="btn" ng-click="submitRecord()" id="submitButton">Submit</button>
+				<button class="btn" ng-click="newImage()" id="newImage">New Image</button>
 				<p id="timer">Elapsed Time: </p>
 				<p id="message">{{message}}</p>
 				</div>
 				<div class="clearFix"></div>
+			</div>
+			<div id="tagTestEnd" ng-show="end">
+				Thank you
 			</div>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
