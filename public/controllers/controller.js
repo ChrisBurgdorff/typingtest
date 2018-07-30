@@ -14,6 +14,16 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	$scope.message = "Record " + $scope.recordNumber + " of " + numRecords + ".";
 	var userId = "";
 	var totalTime;
+	var tutorialSlide;
+	var tutorialImages = ['checknumber.jpg', 'docdate.jpg', 'amount.jpg', 'payee.jpg', 'payor.jpg', 'payorsignature.jpg', 'checkmemo.jpg', 'endorsement.jpg'];
+	var tutorialMessages = ['The Check Number is in the upper right corner.  In this case, it is "101".',
+		'The Check Date is on the Date line.  It will always be in mm/dd/yyyy format. Please enter all digits, and forward slashes.  In this case, it is "05/24/2016".',
+		'The Amount is written next to the dollar sign.  In this case it is "300.00".',
+		'The Payee is on the Pay To The Order Of line.  In this case it is "ABC Corporation".',
+		'The Payor is in the upper left corner.  In this case it is "Joe Smith".',
+		'The Payor Signature is in the bottom right corner.  In this case it is also "Joe Smith".',
+		'The Check Memo is in the bottom left corner.  In this case it is "Invoice".',
+		'The Endorsement, Endorsement Bank, and Transaction Date are on the bottom half of the image.  The Endorsement is "ABC Corporation"; The Endorsement Bank is "Bank of America"; The Transaction Date is "05/30/2016".'];
 	
 	//Timer:
 	function startTimer() {
@@ -52,6 +62,71 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 		});
 	}
 	
+	function startTest() {
+		$('button').prop('disabled', false);
+		$('#newImage').prop('disabled', true);
+		$scope.tutorial = false;
+		$scope.main = true;
+		startTimer();
+	}
+	
+	$scope.nextTutorial = function () {
+		tutorialSlide++;
+		if (tutorialSlide == 8) {
+			$scope.tutorialMessage = 'After you have filled in all the text boxes, click the "Submit" button.  Then click the "New Image" button to get to the next image.  There are 20 Check Images to complete.  When you are ready to start, click "Next".  Once you do, do not refresh the page or click the "Back" button.  Thank you!';
+		} else if (tutorialSlide == 9) {
+			//Clear Scope Vars
+			$scope.checkNumber = "";
+			$scope.docDate = "";
+			$scope.amount = "";
+			$scope.payee = "";
+			$scope.payor = "";
+			$scope.payorSignature = "";
+			$scope.checkMemo = "";
+			$scope.endorsement = "";
+			$scope.endorsementBank = "";
+			$scope.transactionDate = "";
+			//Start test
+			startTest();
+		} else {
+			$("#mainImageTutorial").prop('src', '/images/' + tutorialImages[tutorialSlide]);
+			$scope.tutorialMessage = tutorialMessages[tutorialSlide];
+		}
+		if (tutorialSlide == 0) {
+			$scope.checkNumber = "101";
+		} else if (tutorialSlide == 1) {
+			$scope.docDate = "05/24/2016";
+		}
+		else if (tutorialSlide == 2) {
+			$scope.amount = "300.00";
+		}
+		else if (tutorialSlide == 3) {
+			$scope.payee = "ABC Corporation";
+		}
+		else if (tutorialSlide == 4) {
+			$scope.payor = "Joe Smith";
+		}
+		else if (tutorialSlide == 5) {
+			$scope.payorSignature = "Joe Smith";
+		}
+		else if (tutorialSlide == 6) {
+			$scope.checkMemo = "Invoice";
+		}
+		else if (tutorialSlide == 7) {
+			$scope.endorsement = "ABC Corporation";
+			$scope.endorsementBank = "Bank of America";
+			$scope.transactionDate = "05/30/2016";
+		}
+	}
+	
+	function startTutorial() {
+		$('button').prop('disabled', true);
+		$('#tutorialButton').prop('disabled', false);
+		tutorialSlide = -1;
+		$("#mainImageTutorial").prop('src', '/images/' + 'sample' + '.jpg');
+		$scope.tutorialMessage = "Welcome to the tutorial.  You will see a check on the left, and some text boxes on the right.  Your task will be to type what you see in the relative text boxes.  Click 'Next' to continue.";
+	}
+	
 	$scope.createApplicant = function() {
 		var applicant = {};
 		applicant.name = $scope.applicantName;
@@ -62,9 +137,10 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 			userId = response.data.ops[0]._id;
 			$scope.intro = false;
 			//Move after tutorial
-			$scope.main = true;
-			startTimer();
-			alert(userId);
+			$scope.tutorial = true;
+			startTutorial();
+			//$scope.main = true;
+			//startTimer();
 		});
 	};
 	
@@ -82,6 +158,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 		record.endorsementBank = $scope.endorsementBank;
 		record.transactionDate = $scope.transactionDate;
 		record.email = $scope.applicantEmail;
+		record.userId = userId;
 		record.recordNumber = $scope.recordNumber;
 		$http.post('/record', record).then(function(response) {
 			//ADD RESPONSE MESSAGE
