@@ -17,6 +17,9 @@
 			<div class="headline" id="tagTestHead" ng-show="main">
 				<h1>Tag Test</h1>
 			</div>
+			<div class="headline" ng-show="tutorial">
+				<h1>Tag Test</h1>
+			</div>
 			<div id="tagTestIntro" ng-show="intro">
 				<div id="projects">
 					<p>Thank you for your interest in Exhibit A Solutions.  Please fill out the following information and click "Next", and you will be asked to take a quick typing test.</p>
@@ -32,7 +35,58 @@
 				</div>
 			</div>
 			<div id="tagTestTutorial" ng-show="tutorial">
-				
+				<div id="tutorial">
+					<p>{{tutorialMessage}}</p>
+					<button ng-click="nextTutorial()" id="tutorialButton">Next</button>
+				</div>
+				<div class="checkImage">
+				  <img src="http://www.wollemipine.com/images/wp_wallpaper9_800x600.jpg" id="mainImageTutorial">
+				</div>
+				<div class="checkForm">		  
+				  Check Number:
+				  <input type="text" ng-model="checkNumber"></input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Check Date:
+				  <input type="text" class="dateField" ng-model="docDate"></input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Amount:
+				  <input type="text" ng-model="amount"></input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Payee:
+				  <input type="text" ng-model="payee"></input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Payor:
+				  <input type="text" ng-model="payor"></input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Payor Signature:
+				  <input type="text" ng-model="payorSignature"></input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Check Memo:
+				  <input type="text" ng-model="checkMemo"></input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Endorsement:
+				  <input type="text" ng-model="endorsement"></input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Endoresement Bank:
+				  <input type="text" ng-model="endorsementBank"></input>
+				  <input type="checkbox"></input>
+				  <br>
+				  Transaction Date:
+				  <input type="text" class="dateField" ng-model="transactionDate"></input>
+				  <input type="checkbox"></input>
+				  <br>
+				  <button class="btn">Submit</button>
+				  <button class="btn">New Image</button>
+				</div>
+				<div class="clearFix"></div>
 			</div>
 			<div id="tagTestMain" ng-show="main">				
 				<div class="checkImage">
