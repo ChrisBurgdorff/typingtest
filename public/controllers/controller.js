@@ -3,7 +3,7 @@ var myApp = angular.module('myApp', []);
 myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	
 	//Initialize
-	numRecords = 8;
+	numRecords = 20;
 	$scope.intro = true;
 	$scope.main = false;
 	$scope.tutorial = false;
