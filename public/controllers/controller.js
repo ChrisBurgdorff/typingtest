@@ -240,10 +240,12 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 				$('button').prop('disabled', true);
 				endTest();
 			}
+			newImage();
+			$("#firstTextBox").focus();
 		});
 	};
 	
-	$scope.newImage = function() {
+	function newImage() {
 		//Disable new image button, enable submit
 		$("#newImage").prop('disabled', true);
 		$("#submitButton").prop('disabled', false);
