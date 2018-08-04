@@ -75,7 +75,7 @@
 				  <input type="text" ng-model="endorsement"></input>
 				  <input type="checkbox"></input>
 				  <br>
-				  Endoresement Bank:
+				  Endorsement Bank:
 				  <input type="text" ng-model="endorsementBank"></input>
 				  <input type="checkbox"></input>
 				  <br>
@@ -141,7 +141,9 @@
 				<div class="clearFix"></div>
 			</div>
 			<div id="tagTestEnd" ng-show="end">
-				Thank you
+				<h1 class="headline">Thank you!</h1>
+				<p>Your results were submitted.  You finished in {{displayTime}} with {{displayAccuracy}}% Accuracy.</p>
+				<p>You should expect a response in the next 2 weeks.  Any questions or comments can be directed to (732) 555-1234.</p>
 			</div>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
