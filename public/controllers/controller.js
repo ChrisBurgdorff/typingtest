@@ -3,7 +3,7 @@ var myApp = angular.module('myApp', []);
 myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	
 	//Initialize
-	numRecords = 20;
+	numRecords = 10;
 	$scope.intro = true;
 	$scope.main = false;
 	$scope.tutorial = false;
@@ -70,6 +70,8 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 		var updatedApplicant = {};
 		updatedApplicant.elapsedTime = totalTime;
 		updatedApplicant.accuracy = totalAccuracy;
+		$scope.displayTime = totalTime;
+		$scope.displayAccuracy = totalAccuracy;
 		$http.put('/applicant/' + userId, updatedApplicant).then(function(response){
 			$scope.end = true;
 			$scope.main = false;
