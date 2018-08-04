@@ -12,6 +12,10 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	$("#newImage").prop('disabled', true);
 	$("#mainImage").prop('src', '/images/' + $scope.recordNumber + '.jpg');
 	$scope.message = "Record " + $scope.recordNumber + " of " + numRecords + ".";
+	var masterRecords;
+	var totalFieldsCorrect = 0;
+	var totalFields = 0;
+	var totalAccuracy;
 	var userId = "";
 	var totalTime;
 	var tutorialSlide;
@@ -24,6 +28,16 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 		'The Payor Signature is in the bottom right corner.  In this case it is also "Joe Smith".',
 		'The Check Memo is in the bottom left corner.  In this case it is "Invoice".',
 		'The Endorsement, Endorsement Bank, and Transaction Date are on the bottom half of the image.  The Endorsement is "ABC Corporation"; The Endorsement Bank is "Bank of America"; The Transaction Date is "05/30/2016".'];
+	
+	function createMasterList() {
+		$http({
+			method: 'GET',
+			url: '/record/' + '5b64e21498f6db0014075a31'
+		}).then(function (response) {
+			masterRecords = response.data;
+		});
+	}
+	createMasterList();
 	
 	//Timer:
 	function startTimer() {
@@ -55,7 +69,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	function endTest() {
 		var updatedApplicant = {};
 		updatedApplicant.elapsedTime = totalTime;
-		updatedApplicant.accuracy = "90%";
+		updatedApplicant.accuracy = totalAccuracy;
 		$http.put('/applicant/' + userId, updatedApplicant).then(function(response){
 			$scope.end = true;
 			$scope.main = false;
@@ -144,6 +158,51 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 		});
 	};
 	
+	function checkAccuracy(currRecord) {
+		for (var j = 0; j < 20; j++) {
+			if(masterRecords[j].recordNumber == currRecord.recordNumber) {
+				masterIndex = j;
+			}
+		}
+		console.log(currRecord.checkNumber.toLowerCase().trim()); //1425
+		console.log(masterRecords[masterIndex].checkNumber.toLowerCase().trim()); //988
+		if (currRecord.checkNumber.toLowerCase().trim() == masterRecords[masterIndex].checkNumber.toLowerCase().trim()) {
+			totalFieldsCorrect++;
+		}
+		if (currRecord.docDate.toLowerCase().trim() == masterRecords[masterIndex].docDate.toLowerCase().trim()) {
+			totalFieldsCorrect++;
+		}
+		if (parseInt(currRecord.amount.toLowerCase().trim()) == parseInt(masterRecords[masterIndex].amount.toLowerCase().trim())) {
+			totalFieldsCorrect++;
+		}
+		if (currRecord.payee.toLowerCase().trim() == masterRecords[masterIndex].payee.toLowerCase().trim()) {
+			totalFieldsCorrect++;
+		}
+		if (currRecord.payor.toLowerCase().trim() == masterRecords[masterIndex].payor.toLowerCase().trim()) {
+			totalFieldsCorrect++;
+		}
+		if (currRecord.payorSignature.toLowerCase().trim() == masterRecords[masterIndex].payorSignature.toLowerCase().trim()) {
+			totalFieldsCorrect++;
+		}
+		if (currRecord.checkMemo.toLowerCase().trim() == masterRecords[masterIndex].checkMemo.toLowerCase().trim()) {
+			totalFieldsCorrect++;
+		}
+		if (currRecord.endorsement.toLowerCase().trim() == masterRecords[masterIndex].endorsement.toLowerCase().trim()) {
+			totalFieldsCorrect++;
+		}
+		if (currRecord.endorsementBank.toLowerCase().trim() == masterRecords[masterIndex].endorsementBank.toLowerCase().trim()) {
+			totalFieldsCorrect++;
+		}
+		if (currRecord.transactionDate.toLowerCase().trim() == masterRecords[masterIndex].transactionDate.toLowerCase().trim()) {
+			totalFieldsCorrect++;
+		}
+		totalFields += 10;
+		var accuracyPercentage = 100 * (totalFieldsCorrect / totalFields);
+		totalAccuracy = Math.round( accuracyPercentage * 10 ) / 10;
+		console.log(totalAccuracy);
+		console.log(totalFieldsCorrect);
+	}
+	
 	$scope.submitRecord = function() {
 		$('button').prop('disabled', true);
 		var record = {};
@@ -160,6 +219,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 		record.email = $scope.applicantEmail;
 		record.userId = userId;
 		record.recordNumber = $scope.recordNumber;
+		checkAccuracy(record);
 		$http.post('/record', record).then(function(response) {
 			//ADD RESPONSE MESSAGE
 			$scope.message = "Record submitted.";
