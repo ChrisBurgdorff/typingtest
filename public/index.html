@@ -94,47 +94,37 @@
 				</div>
 				<div class="checkForm">		  
 				  Check Number:
-				  <input type="text" ng-model="checkNumber"></input>
-				  <input type="checkbox"></input>
+				  <input type="text" ng-model="checkNumber" id="firstTextBox"></input>
 				  <br>
 				  Check Date:
 				  <input type="text" class="dateField" ng-model="docDate"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Amount:
 				  <input type="text" ng-model="amount"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Payee:
 				  <input type="text" ng-model="payee"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Payor:
 				  <input type="text" ng-model="payor"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Payor Signature:
 				  <input type="text" ng-model="payorSignature"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Check Memo:
 				  <input type="text" ng-model="checkMemo"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Endorsement:
 				  <input type="text" ng-model="endorsement"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Endorsement Bank:
 				  <input type="text" ng-model="endorsementBank"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Transaction Date:
 				  <input type="text" class="dateField" ng-model="transactionDate"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				<button class="btn" ng-click="submitRecord()" id="submitButton">Submit</button>
-				<button class="btn" ng-click="newImage()" id="newImage">New Image</button>
+				<!--<button class="btn" ng-click="newImage()" id="newImage">New Image</button>-->
 				<p id="timer">Elapsed Time: </p>
 				<p id="message">{{message}}</p>
 				</div>
