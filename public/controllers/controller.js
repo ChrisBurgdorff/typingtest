@@ -15,6 +15,8 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	var masterRecords;
 	var totalFieldsCorrect = 0;
 	var totalFields = 0;
+  var totalQCCorrect = 0;
+  var totalQC = 0;
 	var totalAccuracy;
 	var userId = "";
 	var totalTime;
@@ -66,15 +68,17 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	}
 	
 	//END of Test
-	function endTest() {
+	function endPart1() {
 		var updatedApplicant = {};
 		updatedApplicant.elapsedTime = totalTime;
 		updatedApplicant.accuracy = totalAccuracy;
 		$scope.displayTime = totalTime;
 		$scope.displayAccuracy = totalAccuracy;
 		$http.put('/applicant/' + userId, updatedApplicant).then(function(response){
-			$scope.end = true;
+			//$scope.end = true;
 			$scope.main = false;
+      $scope.tutorial = true;
+      startPart2();
 		});
 	}
 	
@@ -142,6 +146,23 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 		$("#mainImageTutorial").prop('src', '/images/' + 'sample' + '.jpg');
 		$scope.tutorialMessage = "Welcome to the tutorial.  You will see a check on the left, and some text boxes on the right.  Your task will be to type what you see in the relative text boxes.  Click 'Next' to continue.";
 	}
+  function startPart2() {
+    tutorialSlide = -1;
+    $('button').prop('disabled', true);
+		$('#tutorialButton').prop('disabled', false);
+    $("#mainImageTutorial").prop('src', '/images' + 'sample' + '.jpg');
+    $scope.tutorialMessage = "For the next ten images, you will have to look at the check and the text boxes on the right and find the error.  Once you find the field that is incorrect, click in the text box to proceed to the next image. In this example, the payee \"ABC Corporation\" is spelled incorrectly, so you would click on the misspelling.  Click 'Next' to continue.";
+    $scope.checkNumber = "101";
+    $scope.docDate = "05/24/2016";
+    $scope.amount = "300.00";
+    $scope.payee = "ABC Crpraation";
+    $scope.payor = "Joe Smith";
+    $scope.payorSignature = "Joe Smith";
+    $scope.checkMemo = "Invoice";
+    $scope.endorsement = "ABC Corporation";
+    $scope.endorsementBank = "Bank of America";
+    $scope.transactionDate = "05/30/2016";
+  }
 	
 	$scope.createApplicant = function() {
 		var applicant = {};
@@ -238,7 +259,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 			$scope.transactionDate = "";
 			if ($scope.recordNumber == numRecords) {
 				$('button').prop('disabled', true);
-				endTest();
+				endPart1();
 			}
 			newImage();
 			$("#firstTextBox").focus();
