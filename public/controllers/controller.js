@@ -17,6 +17,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
   $scope.qcExplanation = false;
   $scope.upload = false;
 	$scope.recordNumber = 1;
+  var timerInterval;
 	$("#newImage").prop('disabled', true);
 	$("#mainImage").prop('src', '/images/' + $scope.recordNumber + '.jpg');
 	$scope.message = "Record " + $scope.recordNumber + " of " + "15" + ".";
@@ -26,6 +27,9 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	var totalAccuracy;
 	var userId = "";
 	var totalTime;
+  var qcNumber = 0;
+  var qcRight = 0;
+  var qcWrong = 0;
 	var tutorialSlide;
 	var tutorialImages = ['checknumber.jpg', 'docdate.jpg', 'amount.jpg', 'payee.jpg', 'payor.jpg', 'payorsignature.jpg', 'checkmemo.jpg', 'endorsement.jpg'];
 	var tutorialMessages = ['The Check Number is in the upper right corner.  In this case, it is "101".',
@@ -49,9 +53,10 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	
 	//Timer:
 	function startTimer() {
+    clearInterval(timerInterval);
 		var start = new Date().getTime(),
 			elapsed = '0.0';
-		window.setInterval(function() {
+		timerInterval = window.setInterval(function() {
 			var minutes;
 			var seconds;
 			var time = new Date().getTime() - start;
@@ -70,6 +75,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 				totalTime = elapsed;
 			}
 			$("#timer").text("Elapsed Time: " + totalTime);
+      $("#timer2").text("Elapsed Time: " + totalTime);
 		}, 100);
 	}
 	
@@ -80,7 +86,11 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 		updatedApplicant.accuracy = totalAccuracy;
 		$scope.displayTime = totalTime;
 		$scope.displayAccuracy = totalAccuracy;
+    $('button').prop('disabled', false);
 		$http.put('/applicant/' + userId, updatedApplicant).then(function(response){
+      console.log("in first put");
+      console.log(totalTime);
+      console.log(totalAccuracy);
 			//$scope.end = true;
 			$scope.main = false;
       $scope.qcExplanation = true;
@@ -216,6 +226,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	
 	$scope.submitRecord = function() {
 		$('button').prop('disabled', true);
+    console.log("Button disabled from submit");
 		var record = {};
 		record.checkNumber = $scope.checkNumber;
 		record.docDate = $scope.docDate;
@@ -235,6 +246,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 			//ADD RESPONSE MESSAGE
 			$scope.message = "Record submitted.";
 			$("#newImage").prop('disabled', false);
+      console.log("new image button disabled")
 			$scope.checkNumber = "";
 			$scope.docDate = "";
 			$scope.amount = "";
@@ -246,7 +258,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 			$scope.endorsementBank = "";
 			$scope.transactionDate = "";
 			if ($scope.recordNumber == numRecords) {
-				$('button').prop('disabled', true);
+				//$('button').prop('disabled', true);
 				endTest();
 			}
 			newImage();
@@ -262,19 +274,110 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 		$scope.recordNumber++;		
 		//End if on last image
 		if ($scope.recordNumber > numRecords) {
-			$('button').prop('disabled', true);
-			endTest();
+			//$('button').prop('disabled', true);
+			//endTest();
 			//End
 		} else {
 			//Reset Response Message
-			$scope.message = "Record " + $scope.recordNumber + " of " + numRecords + ".";
+			$scope.message = "Record " + $scope.recordNumber + " of " + "15" + ".";
 			//Load Next Image
 			$("#mainImage").prop('src', '/images/' + $scope.recordNumber + '.jpg');
 		}
 	};
   
-  $scope.startQC() = function() {
+  function endQC() {
+    console.log("In endQC");
+    var updatedApplicant = {};
+		updatedApplicant.qcTime = totalTime;
+		updatedApplicant.qcAccuracy = qcRight;
+		$scope.displayTime = totalTime;
+		$scope.displayAccuracy = totalAccuracy;
+		$http.put('/applicantqc/' + userId, updatedApplicant).then(function(response){
+      console.log("in second put response");
+      console.log(totalTime);
+      console.log(qcRight);
+      console.log(userId);
+      console.log(response);
+			//$scope.end = true;
+			$scope.qc = false;
+      $scope.upload = true;
+		});   
+  }
+  
+  function nextQC(index) {
+    if (index == 15) {
+      endQC();
+    } else {
+      qcNumber = index + 1;
+      displayQCImage(qcNumber);
+      displayQCFields(qcNumber);
+      $scope.message = "Record " + qcNumber + " of 15.";
+    }
+  }
+  
+  $scope.checkQC =  function(selection) {
+    if (qcNumber == 11) {
+      if (selection == 2) { qcRight++;} else {qcWrong++;}
+    } else if (qcNumber == 12) {
+      if (selection == 2) { qcRight++;} else {qcWrong++;}
+    }else if (qcNumber == 13) {
+      if (selection == 4) { qcRight++;} else {qcWrong++;}
+    }else if (qcNumber == 14) {
+      if (selection == 3) { qcRight++;} else {qcWrong++;}
+    }else if (qcNumber == 15) {
+      if (selection == 5) { qcRight++;} else {qcWrong++;}
+    }
+    nextQC(qcNumber);
+  }
+  
+  function displayQCImage(index) {
+    $("#qcImage").prop('src', '/images/' + index + '.jpg');
+  }
+  
+  function displayQCFields(index) {
+    if (index == 11) {
+      $scope.checkNumber = "7055";
+      $scope.docDate = "12/14/1999";
+      $scope.amount = "149.55";
+      $scope.payee = "Martha Dreyer";
+      $scope.payor = "Sumace Properties LLC";
+    } else if (index == 12) {
+      $scope.checkNumber = "1466";
+      $scope.docDate = "12/25/2007";
+      $scope.amount = "50.00";
+      $scope.payee = "Carmen Mills";
+      $scope.payor = "Robby Amaya";
+    } else if (index == 13) {
+      $scope.checkNumber = "2763";
+      $scope.docDate = "06/15/2015";
+      $scope.amount = "820.00";
+      $scope.payee = "Haftan Incorporated";
+      $scope.payor = "Nero Anderson";
+    } else if (index == 14) {
+      $scope.checkNumber = "1053";
+      $scope.docDate = "10/09/2010";
+      $scope.amount = "750.00";
+      $scope.payee = "North Jersey Dental PC";
+      $scope.payor = "Madelyn Tracy";
+    } else if (index == 15) {
+      $scope.checkNumber = "286";
+      $scope.docDate = "07/10/2014";
+      $scope.amount = "125.00";
+      $scope.payee = "Efren Gonzalez";
+      $scope.payor = "Mue Cutler";
+    }
+   }
+  
+  $scope.startQC = function() {
     //START HERE TOMORROW
+    console.log("IN startQC");
+    $scope.qcExplanation = false;
+    $scope.qc = true;
+    qcNumber = 11;
+    startTimer();
+    displayQCImage(11);
+    displayQCFields(11);
+    $scope.message = "Record 11 of 15.";
   };
   
   $scope.uploadResume = function() {
