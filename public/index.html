@@ -9,6 +9,7 @@
 		<title>Tag Test</title>
 	</head>
 	<body>
+    <script type="text/javascript" src="https://static.filestackapi.com/v3/filestack.js"></script>
 		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 		<div ng-controller="AppCtrl" id="tagTest">
 			<div class="headline" id="welcomeHead" ng-show="intro">
@@ -23,7 +24,7 @@
 			<div id="tagTestIntro" ng-show="intro">
 				<div id="projects">
 					<p>Thank you for your interest in Exhibit A Solutions.  Please fill out the following information and click "Next", and you will be asked to take a quick typing test.</p>
-					<p>The test should take no more than ten minutes.  Once it starts, <strong>do not</strong> refresh the page or use the back button.  You will be assessed for speed and accuracy, so 
+					<p>The test should take no more than ten minutes.  Once it starts, <strong>do not</strong> refresh the page or use the back button.  You will be assessed for primarily speed, but also accuracy, so 
 					try to finish as quickly as you can without making too many mistakes.  The test can only be taken once.</p>
 					Name: <input type="text" ng-model="applicantName"></input>
 					<br>
@@ -84,7 +85,7 @@
 				  <input type="checkbox"></input>
 				  <br>
 				  <button class="btn">Submit</button>
-				  <button class="btn">New Image</button>
+				  <!--<button class="btn">New Image</button>-->
 				</div>
 				<div class="clearFix"></div>
 			</div>
@@ -128,12 +129,53 @@
 				<p id="timer">Elapsed Time: </p>
 				<p id="message">{{message}}</p>
 				</div>
+        <div id="qcTestExplanation" ng-show="qcExplanation">
+          <h1 class="headline">Quality Control</h1>
+          <p class="endParagraph">For the next 5 check images, you will see 5 fields already entered, with a button next to each field.</p>
+          <p class="endParagraph">One of the fields is incorrect.  Please press the button next to the incorrect field.  You will be timed.</p>
+          <p class="endParagraph">When you are ready, click "Next" to continue.</p>
+          <button class="btn" ng-click="startQC()">Next</button>
+        </div>
+        <div id="qcTestMain" ng-show="qc">
+          <div class="checkImage">
+				  <img src="http://www.wollemipine.com/images/wp_wallpaper9_800x600.jpg" id="mainImage">
+          </div>
+          <div class="checkForm">
+            Check Number:
+            <input type="text" ng-model="checkNumber" id="firstTextBox"></input>
+            <button class="btn" ng-click="checkQC(1)">Incorrect</button>
+            <br>
+            Check Date:
+            <input type="text" class="dateField" ng-model="docDate"></input>
+            <button class="btn" ng-click="checkQC(2)">Incorrect</button>
+            <br>
+            Amount:
+            <input type="text" ng-model="amount"></input>
+            <button class="btn" ng-click="checkQC(3)">Incorrect</button>
+            <br>
+            Payee:
+            <input type="text" ng-model="payee"></input>
+            <button class="btn" ng-click="checkQC(4)">Incorrect</button>
+            <br>
+            Payor:
+            <input type="text" ng-model="payor"></input>
+            <button class="btn" ng-click="checkQC(5)">Incorrect</button>
+            <br>
+            <p id="timer2">Elapsed Time: </p>
+            <p id="message2">{{message}}</p>
+          </div>
+        </div>
 				<div class="clearFix"></div>
 			</div>
+      <div id="tagTestUpload" ng-show="upload">
+        <h1 class="headline">Upload Resume</h1>
+        <p class="endParagraph">Finally, please click the button below to upload a resume.  You may upload a cover letter as well, but that is optional.  Please make sure all documents are in PDF, Microsoft Word, or Rich Text format.</p>
+        <button class="btn" ng-click="uploadResume()">Upload File(s)</button>
+      </div>
 			<div id="tagTestEnd" ng-show="end">
 				<h1 class="headline">Thank you!</h1>
 				<p class="endParagraph">Your results were submitted.  You finished in {{displayTime}} with {{displayAccuracy}}% Accuracy.</p>
-				<p class="endParagraph">You should expect a response in the next 2 weeks.  Any questions or comments can be directed to (732) 555-1234.</p>
+				<p class="endParagraph">You should expect a response in the next 2 weeks.  Any questions or comments can be directed to (732) 267-0263 or cburgdorff@pringle-quinn.com</p>
 				<p class="endParagraph">You may now close this tab.</p>
 			</div>
 		</div>
