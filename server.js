@@ -41,6 +41,18 @@ app.put('/applicant/:id', function (req, res) {
   );
 });
 
+app.put('/applicantqc/:id', function (req, res) {
+  var id = req.params.id;
+  db.collection('applicants').updateOne({_id: new mongodb.ObjectID(id)},
+    {$set: {
+        qcTime: req.body.qcTime,
+        qcAccuracy: req.body.qcAccuracy}}, 
+	function (err, doc) {
+      res.json(doc);
+    }
+  );
+});
+
 app.get('/applicant', function(req, res) {
 	db.collection('applicants').find().toArray(function(err, results){
 		res.json(results);
