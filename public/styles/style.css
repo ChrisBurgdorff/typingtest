@@ -17,10 +17,10 @@ h1 {
 input {
   margin-bottom: 10px;
 }
-#timer, #message {
+#timer, #message, #timer2, #message2 {
 	margin-top: 25px;
 }
-#projects, #tutorial {
+#projects, #tutorial, #tagTestUpload, #qcTestExplanation {
 	width: 50%;
 	margin-left: auto;
 	margin-right: auto;
@@ -60,4 +60,18 @@ button {
 .endParagraph {
 	margin-left: 10%;
 	margin-bottom: 10px;
+}
+.btn {
+  background-color: #aaaaaa;
+  color: black;
+  border: 1px solid #222222;
+  border-radius: 2px;
+  padding: 5px;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #cccccc;
+}
+.btn:active {
+  background-color: #999999;
 }
