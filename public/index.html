@@ -21,6 +21,9 @@
 			<div class="headline" ng-show="tutorial">
 				<h1>Tag Test</h1>
 			</div>
+      <div class="headline" ng-show="qc">
+				<h1>Tag Test</h1>
+			</div>
 			<div id="tagTestIntro" ng-show="intro">
 				<div id="projects">
 					<p>Thank you for your interest in Exhibit A Solutions.  Please fill out the following information and click "Next", and you will be asked to take a quick typing test.</p>
@@ -32,13 +35,13 @@
 					<br>
 					Phone Number: <input type="text" ng-model="applicantPhone"></input>
 					<br>
-					<button ng-click="createApplicant()">Next</button>
+					<button ng-click="createApplicant()" class="btn">Next</button>
 				</div>
 			</div>
 			<div id="tagTestTutorial" ng-show="tutorial">
 				<div id="tutorial">
 					<p>{{tutorialMessage}}</p>
-					<button ng-click="nextTutorial()" id="tutorialButton">Next</button>
+					<button ng-click="nextTutorial()" id="tutorialButton" class="btn">Next</button>
 				</div>
 				<div class="checkImage">
 				  <img src="http://www.wollemipine.com/images/wp_wallpaper9_800x600.jpg" id="mainImageTutorial">
@@ -46,43 +49,33 @@
 				<div class="checkForm">		  
 				  Check Number:
 				  <input type="text" ng-model="checkNumber"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Check Date:
 				  <input type="text" class="dateField" ng-model="docDate"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Amount:
 				  <input type="text" ng-model="amount"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Payee:
 				  <input type="text" ng-model="payee"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Payor:
 				  <input type="text" ng-model="payor"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Payor Signature:
 				  <input type="text" ng-model="payorSignature"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Check Memo:
 				  <input type="text" ng-model="checkMemo"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Endorsement:
 				  <input type="text" ng-model="endorsement"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Endorsement Bank:
 				  <input type="text" ng-model="endorsementBank"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  Transaction Date:
 				  <input type="text" class="dateField" ng-model="transactionDate"></input>
-				  <input type="checkbox"></input>
 				  <br>
 				  <button class="btn">Submit</button>
 				  <!--<button class="btn">New Image</button>-->
@@ -129,16 +122,17 @@
 				<p id="timer">Elapsed Time: </p>
 				<p id="message">{{message}}</p>
 				</div>
+			</div>
         <div id="qcTestExplanation" ng-show="qcExplanation">
           <h1 class="headline">Quality Control</h1>
           <p class="endParagraph">For the next 5 check images, you will see 5 fields already entered, with a button next to each field.</p>
-          <p class="endParagraph">One of the fields is incorrect.  Please press the button next to the incorrect field.  You will be timed.</p>
-          <p class="endParagraph">When you are ready, click "Next" to continue.</p>
+          <p class="endParagraph">One of the fields is incorrect.  Please press the button next to the incorrect field.  You do not have to make any corrections.  Just click the button.</p>
+          <p class="endParagraph">You will be timed.  When you are ready, click "Next" to continue.</p>
           <button class="btn" ng-click="startQC()">Next</button>
         </div>
         <div id="qcTestMain" ng-show="qc">
           <div class="checkImage">
-				  <img src="http://www.wollemipine.com/images/wp_wallpaper9_800x600.jpg" id="mainImage">
+				  <img src="http://www.wollemipine.com/images/wp_wallpaper9_800x600.jpg" id="qcImage">
           </div>
           <div class="checkForm">
             Check Number:
@@ -166,7 +160,6 @@
           </div>
         </div>
 				<div class="clearFix"></div>
-			</div>
       <div id="tagTestUpload" ng-show="upload">
         <h1 class="headline">Upload Resume</h1>
         <p class="endParagraph">Finally, please click the button below to upload a resume.  You may upload a cover letter as well, but that is optional.  Please make sure all documents are in PDF, Microsoft Word, or Rich Text format.</p>
