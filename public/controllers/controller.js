@@ -1,3 +1,8 @@
+//Instantiating dialog with Filestack
+var client = filestack.init("AqyYt7xJeT2evrMxKENiAz");
+//Filestack API method 'pick()' that opens the file picker
+//client.pick({});
+        
 var myApp = angular.module('myApp', []);
 
 myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
@@ -8,10 +13,13 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	$scope.main = false;
 	$scope.tutorial = false;
 	$scope.end = false;
+  $scope.qc = false;
+  $scope.qcExplanation = false;
+  $scope.upload = false;
 	$scope.recordNumber = 1;
 	$("#newImage").prop('disabled', true);
 	$("#mainImage").prop('src', '/images/' + $scope.recordNumber + '.jpg');
-	$scope.message = "Record " + $scope.recordNumber + " of " + numRecords + ".";
+	$scope.message = "Record " + $scope.recordNumber + " of " + "15" + ".";
 	var masterRecords;
 	var totalFieldsCorrect = 0;
 	var totalFields = 0;
@@ -73,8 +81,9 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 		$scope.displayTime = totalTime;
 		$scope.displayAccuracy = totalAccuracy;
 		$http.put('/applicant/' + userId, updatedApplicant).then(function(response){
-			$scope.end = true;
+			//$scope.end = true;
 			$scope.main = false;
+      $scope.qcExplanation = true;
 		});
 	}
 	
@@ -89,7 +98,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 	$scope.nextTutorial = function () {
 		tutorialSlide++;
 		if (tutorialSlide == 8) {
-			$scope.tutorialMessage = 'After you have filled in all the text boxes, click the "Submit" button.  Then click the "New Image" button to get to the next image.  There are 20 Check Images to complete.  When you are ready to start, click "Next".  Once you do, do not refresh the page or click the "Back" button.  Thank you!';
+			$scope.tutorialMessage = 'After you have filled in all the text boxes, click the "Submit" button.  There are 15 Check Images to complete.  When you are ready to start, click "Next".  Once you do, do not refresh the page or click the "Back" button.  Thank you!';
 		} else if (tutorialSlide == 9) {
 			//Clear Scope Vars
 			$scope.checkNumber = "";
@@ -263,5 +272,28 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http){
 			$("#mainImage").prop('src', '/images/' + $scope.recordNumber + '.jpg');
 		}
 	};
+  
+  $scope.startQC() = function() {
+    //START HERE TOMORROW
+  };
+  
+  $scope.uploadResume = function() {
+    client.pick({
+        //Only accepting files with a mimetype 'image/*'
+        accept: [
+          "image/*",
+          "application/pdf",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/rtf",
+          "text/plain"
+          ],
+        //Only accepting at most 1 file
+        maxFiles:2
+    }).then(function(){
+      $scope.upload = false;
+      $scope.end = true;
+    });
+  };
 	
 }]);
