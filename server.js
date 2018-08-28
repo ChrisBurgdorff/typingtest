@@ -7,6 +7,9 @@ var MongoClient = require('mongodb').MongoClient;
 var MongoUrl = "mongodb://wesborland1234:fakepassword1@ds147391.mlab.com:47391/tagtestdb";
 var mongodb = require('mongodb');
 var path = require('path');
+var bcrypt = require('bcryptjs');
+
+var protectedRoute = '/tDn9K0druxmCsHUQG3lBULthwHVDzB2SSahM7e';
 
 app.use(express.static(__dirname + "/public"));
 
@@ -67,7 +70,7 @@ app.post('/record', function (req, res) {
 });
 
 app.get('/admin', function (req, res) {
-	res.sendFile(path.join(__dirname + '/public/applicants.html'));
+	res.sendFile(path.join(__dirname + '/public/login.html'));
 });
 
 app.get('/record/:id', function (req, res) {
@@ -75,4 +78,45 @@ app.get('/record/:id', function (req, res) {
 	db.collection('records').find({userId: queryUserId}).toArray(function(err, results){
 		res.json(results);
 	});
+});
+
+app.post('/register', function (req, res) {
+  db.collection('admins', function (err, adminsCollection) {
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(req.body.password, salt, function (err, hash){
+        var newAdmin = {
+          username: req.body.username,
+          password: hash
+        };
+        adminsCollection.insert(newAdmin, function (err, doc){
+          res.json(doc);
+        });
+      });
+    });
+  });
+});
+
+app.get(protectedRoute, function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/applicants.html'));
+});
+
+app.post('/login', function (req, res) {
+  console.log("in signin function backend");
+  db.collection('admins', function(err, adminsCollection) {
+    adminsCollection.findOne({username: req.body.username}, function(err, admin){
+      console.log(admin);
+      bcrypt.compare(req.body.password, admin.password, function(error, result) {
+        console.log(result);
+        if (result) {
+          console.log("in correct if");
+          console.log(protectedRoute);
+          res.json({err: 0, redirectUrl: protectedRoute});
+          //res.sendFile(path.join(__dirname + '/public/applicants.html'));
+        } else {
+          res.sendStatus(401);
+        }
+      });
+    });
+  });
+  //After verified user:
 });
