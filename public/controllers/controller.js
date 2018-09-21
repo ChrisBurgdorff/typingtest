@@ -1,5 +1,5 @@
 //Instantiating dialog with Filestack
-var client = filestack.init("AqyYt7xJeT2evrMxKENiAz");
+var client = filestack.init("AZdaV7r9ZSeCgIJif81pRz");
 //Filestack API method 'pick()' that opens the file picker
 //client.pick({});
         
